@@ -6,6 +6,7 @@ import os
 geocode_url = 'https://geocoder.cit.api.here.com/6.2/geocode.json'
 google_url = 'https://maps.googleapis.com/maps/api/geocode/json'
 
+#return the coordinates of the geocode API from the response
 def get_geocode_position(data):
     #the coordintes are deeply nested so can't avoid this ugliness
     response = data['Response']
@@ -16,6 +17,7 @@ def get_geocode_position(data):
     geocode_position = location['DisplayPosition']
     return geocode_position
 
+#return the coordinates using the geocode API from an address
 def make_geocode_request(address):
     params = {
         'app_id': os.environ['GEOCODE_APP_ID'], 
@@ -32,13 +34,14 @@ def make_geocode_request(address):
     return {'lat': lat, 'lng': lng}
 
 
+#return the coordinates of the google API from the response
 def get_google_position(data):
     one_result = data['results'][0]
     google_location = one_result['geometry']['location']
-    print('google_location', google_location)
     return google_location
 
 
+#return the coordinates using the google API from an address
 def make_google_request(address):
     params = {
         'key': os.environ['GOOGLE_API_KEY'],
